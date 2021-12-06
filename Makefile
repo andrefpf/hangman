@@ -1,2 +1,2 @@
 all:
-	gcc -I include/server src/server/server.c -o server
+	gcc -I include/ src/server.c -o server
