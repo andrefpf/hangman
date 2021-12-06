@@ -7,21 +7,37 @@
 struct Hangman * create_game() {
     struct Hangman * hangman = malloc(sizeof(struct Hangman));
     hangman->mistakes = 0;
-    choose_word(NUM_WORDS, RANDOM_WORDS, hangman->word);
-    fill_gaps(hangman->guess, hangman->word);    
+    choose_word(hangman->word);
+    fill_gaps(hangman->guess, hangman->word);  
+    return hangman;  
 }
 
 int evaluate(char c, struct Hangman * hangman) {
-    if (hangman->mistakes >= MAX_VALUES) {
-        return 0;
+    if (belongs(c, hangman->word)) {
+        complete_word(c, hangman->guess, hangman->word);
+
+        if (strcmp(hangman->guess, hangman->word))
+            return CORRECT;
+        else 
+            return WIN;
+
+    } else {
+        hangman->mistakes++;
+
+        if (hangman->mistakes >= NUM_BODY_PARTS)
+            return LOSE;
+        else
+            return WRONG;
     }
-
-
 }
 
-void choose_word(int size, char ** vector, char * word) {
-    int opt = random() % size;
-    strcpy(word, vector[opt]);
+int get_body_part(struct Hangman * hangman) {
+    return hangman->mistakes;
+}
+
+void choose_word(char * word) {
+    int opt = random() % NUM_WORDS;
+    strcpy(word, RANDOM_WORDS[opt]);
 }
 
 void fill_gaps(char * guess, char * word) {

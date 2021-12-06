@@ -1,29 +1,45 @@
 #ifndef HANGMAN_H
 #define HANGMAN_H
 
-int NUM_WORDS = 4;
+#define WORD_SIZE 256
+#define NUM_BODY_PARTS 4
 
+int NUM_WORDS = 4;
 char * RANDOM_WORDS[] = {
     "Hello",
     "Word",
-    "Mama",
-    "Mia"
+    "Mia",
+    "Mama"
 };
 
 enum BODY_PARTS {
+    NONE,
     HEAD,
     BODY,
     ARMS,
-    MAX_VALUES
-}
+    LEGS
+};
+
+enum RESULTS {
+    CORRECT,
+    WRONG,
+    WIN,
+    LOSE
+};
 
 struct Hangman {
-    char word[256];
-    char guess[256];
+    char word[WORD_SIZE];
+    char guess[WORD_SIZE];
     int mistakes;
 };
 
 struct Hangman * create_game();
+
+int evaluate(char c, struct Hangman * hangman);
+
+int get_body_part(struct Hangman * hangman);
+
+void choose_word(char * word);
 
 void fill_gaps(char * guess, char * word);
 
