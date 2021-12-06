@@ -16,8 +16,6 @@ int evaluate(char c, struct Hangman * hangman) {
         return 0;
     }
 
-    if (belongs(c, ))
-
 
 }
 
