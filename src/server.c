@@ -174,8 +174,7 @@ void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
 			close(newsock);
 		} else {
 			printf("new connection! %s %d\n", str, ntohs(addr.sin_port));
-			int newplayer = 0;
-			newplayer = add_connection(fds, newsock, nfds);
+			int newplayer = add_connection(fds, newsock, nfds);
 			printf("new player %d\n", newplayer);
 			startgame(newplayer);
 			game_loop(newsock, "", newplayer);
