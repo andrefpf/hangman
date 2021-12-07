@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <stdio.h>
 
 #include <hangman.h>
 
@@ -43,12 +44,15 @@ void choose_word(char * word) {
 
 void fill_gaps(char * guess, char * word) {
     int size = strlen(word);
+    char c;
 
     for (int i = 0; i < size; i++) {
-        if (word[i] == ' ') {
-            guess[i] = ' ';
-        } else {
+        c = word[i];
+
+        if ('A' <= c && c <= 'z') {
             guess[i] = '_';
+        } else {
+            guess[i] = c;
         }
     }
 
