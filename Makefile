@@ -1,7 +1,7 @@
 all: clean server client
 
 server:
-	@ gcc -I include/ src/server.c -o server
+	@ gcc -I include/ src/server.c src/hangman.c -o server
 
 client: hangman
 	@ gcc -I include/ src/client.c hangman.o -o client

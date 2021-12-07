@@ -15,10 +15,11 @@
 #include <hangman.h>
 #include <client.h>
 
-int startclient() {
-    int ret, fd;
+int ret, fd;
+
+void startclient() {
 	struct sockaddr_in addr;
-	
+
 	fd = socket(AF_INET, SOCK_STREAM, 0);
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = inet_addr(SERVER_IP);
@@ -28,8 +29,24 @@ int startclient() {
 		perror("unable to connect");
 		exit(1);
 	}
+}
 
-	return fd;
+void startgame() {
+    char buffer[BUFFER_SIZE];
+    char guess[BUFFER_SIZE];
+    while (1) {
+        recv(fd, buffer, BUFFER_SIZE, 0);
+        printf("%s\n", buffer);
+        recv(fd, buffer, BUFFER_SIZE, 0);
+        printf("%s\n", buffer);
+
+        fgets(guess, BUFFER_SIZE, stdin);
+        fflush(stdin);
+        //printf("%s\n", guess);
+        fflush(stdout);
+        send(fd, guess, sizeof(guess), 0);
+    }
+    return;
 }
 
 int game_loop() {
@@ -85,10 +102,9 @@ int game_loop() {
 
 
 int main() {
-    game_loop();
-
-
-    // int fd = startclient();
+    startclient();
+    startgame(fd);
+    close(fd);
 
     // if (fd < 0) {
     //     printf("Error while connecting to server \n");
