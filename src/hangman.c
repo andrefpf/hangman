@@ -36,7 +36,7 @@ int get_body_part(struct Hangman * hangman) {
 }
 
 void choose_word(char * word) {
-    int opt = random() % NUM_WORDS;
+    int opt = random() % N_WORDS;
     strcpy(word, RANDOM_WORDS[opt]);
 }
 

@@ -4,7 +4,7 @@
 #define WORD_SIZE 256
 #define NUM_BODY_PARTS 4
 
-int NUM_WORDS = 4;
+int N_WORDS = 4;
 char * RANDOM_WORDS[] = {
     "Hello",
     "Word",
