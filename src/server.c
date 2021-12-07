@@ -16,86 +16,94 @@ struct Hangman * hangman[MAX_PLAYERS];
 int game[MAX_PLAYERS];
 int win[MAX_PLAYERS];
 
-int game_loop_start(int fd, char* msg, int player) {
-	char buffer[BUFFER_SIZE];
-    char guess[BUFFER_SIZE];
-	char temp[BUFFER_SIZE];
-    char response[BUFFER_SIZE];
-	int r;
-    int mistakes;
-
-	char msg_hello[] = "WELLCOME! \nType the character you think that is in the word. \n";
-	char msg_guess[] = "\nYour guess: ";
-	char msg_win[] = "WIN!\n";
-	char msg_lose[] = "LOSE!\n";
-
-    strcpy(guess, hangman[player]->guess); // server
-	strcpy(temp, STICKERMAN[hangman[player]->mistakes]);
-	strcpy(response, msg);
-	char* teste = strncat(guess, msg_guess, 14);
-	send(fd, temp, sizeof(temp), 0);
-	send(fd, guess, sizeof(guess), 0);
-}
-
 int game_loop(int fd, char* msg, int player) {
     char buffer[BUFFER_SIZE];
     char guess[BUFFER_SIZE];
+	char msg_return[BUFFER_SIZE];
+	char msg_return2[BUFFER_SIZE];
 	char temp[BUFFER_SIZE];
     char response[BUFFER_SIZE];
 	int r;
     int mistakes;
 
+	memset(msg_return, 0, BUFFER_SIZE);
+	memset(msg_return2, 0, BUFFER_SIZE);
+
 	char msg_hello[] = "WELLCOME! \nType the character you think that is in the word. \n";
 	char msg_guess[] = "\nYour guess: ";
 	char msg_win[] = "WIN!\n";
 	char msg_lose[] = "LOSE!\n";
+	char sair[] = "sair";
 
+	char nice_job[] = "\nNice job. \n";
+	char oh_no[] = "\nOh no! \n";
+	char cong[] = "\nCongratulations my little grashooper! \n";
+	char next_time[] = "\nBetter Luck next time. \n";
 
-	printf("%s\n", hangman[player]->word);
-	if (strlen(response) > 1) {
+	strcpy(temp, STICKERMAN[hangman[player]->mistakes]);
+	strcpy(guess, hangman[player]->guess); // server
+	strcpy(response, msg); // server
+
+	strncat(msg_return, msg_hello, sizeof(msg_hello)+1);
+	strncat(msg_return, temp, sizeof(temp)+1);
+	strncat(msg_return, guess, sizeof(guess)+1);
+
+	if (win[player] == 0) {
+		send(fd, sair, sizeof(sair), 0);
+		return 1;
+	} else if (win[player] == 1) {
+		send(fd, sair, sizeof(sair), 0);
+		return 1;
+	}
+
+	if (!strcmp(msg, sair)){
+		send(fd, sair, sizeof(sair), 0);
+		return -1;
+	}
+
+	printf("Player %d word: %s\n",player, hangman[player]->word);
+	if (strlen(response) > 0) {
 		r = evaluate(response[0], hangman[player]); // server
         strcpy(guess, hangman[player]->guess); // server
         mistakes = hangman[player]->mistakes;  // server
 
+		strcpy(temp, STICKERMAN[hangman[player]->mistakes]);
+		strcpy(guess, hangman[player]->guess); // server
+		strcpy(response, msg); // server
+
+		strncat(msg_return2, msg_hello, sizeof(msg_hello)+1);
+		strncat(msg_return2, temp, sizeof(temp)+1);
+		strncat(msg_return2, guess, sizeof(guess)+1);
+
         switch (r) {
             case CORRECT:
-                printf("Nice job. \n");
+                strncat(msg_return2, nice_job, sizeof(nice_job)+1);
                 break;
             case WRONG:
-                printf("Oh no! \n");
+                strncat(msg_return2, oh_no, sizeof(oh_no)+1);
                 break;
             case WIN:
-                printf("Congratulations my little grashooper! \n");
+                strncat(msg_return2, cong, sizeof(cong)+1);
                 break;
             case LOSE:
-                printf("Better Luck next time. \n");
+                strncat(msg_return2, next_time, sizeof(next_time)+1);
                 break;
         }
 
         if (r == WIN) {
             win[player] = 1;
+			strncat(msg_return2, msg_win, sizeof(msg_win)+1);
         } else if (r == LOSE) {
+			strncat(msg_return2, msg_lose, sizeof(msg_lose)+1);
 			win[player] = 0;
+		} else {
+			strncat(msg_return2, msg_guess, sizeof(msg_guess)+1);
 		}
-	}
-
-    strcpy(guess, hangman[player]->guess); // server
-	strcpy(temp, STICKERMAN[hangman[player]->mistakes]);
-	strcpy(response, msg);
-	char* teste = strncat(guess, msg_guess, 14);
-
-
-	send(fd, temp, sizeof(temp), 0);
-	if (win[player] == 0) {
-		send(fd, msg_lose, sizeof(msg_lose), 0);
-		return 1;
-	} else if (win[player] == 1) {
-		send(fd, msg_win, sizeof(msg_win), 0);
-		return 1;
+		send(fd, msg_return2, sizeof(msg_return2), 0);
 	} else {
-		send(fd, guess, sizeof(guess), 0);
+		strncat(msg_return, msg_guess, sizeof(msg_guess)+1);
+		send(fd, msg_return, sizeof(msg_return), 0);
 	}
-
 	return 0;
 }
 
@@ -148,8 +156,9 @@ void remove_connection(struct pollfd *fds, int i, int *nfds) {
 
 void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
 	struct sockaddr_in addr;
-    char buffer[BUFFER_SIZE];
-    memset(&buffer, 0, BUFFER_SIZE);
+    char buffer[MAX_PLAYERS][BUFFER_SIZE];
+	for (int i = 0; i < MAX_PLAYERS; i++)
+    	memset(buffer[i], 0, BUFFER_SIZE);
 	int socklen, newsock, bytes, ret;
 	char op, str[INET_ADDRSTRLEN];
 
@@ -168,7 +177,7 @@ void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
 			newplayer = add_connection(fds, newsock, nfds);
 			printf("new player %d\n", newplayer);
 			startgame(newplayer);
-			game_loop_start(newsock, "", newplayer);
+			game_loop(newsock, "", newplayer);
 		}
 
 		fflush(stdout);
@@ -177,10 +186,10 @@ void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
 	}
 
 	/* operation request */
-	int p = recv(fds[i].fd, &buffer, BUFFER_SIZE, 0);
+	int p = recv(fds[i].fd, buffer[i], BUFFER_SIZE, 0);
 	if (p > 0) {
-        printf("%s", buffer);
-		if (game_loop(newsock, buffer, i) != 0) {
+        printf("Player %d msg: %s\n",i,  buffer[i]);
+		if (game_loop(fds[i].fd, buffer[i], i) != 0) {
 			finishgame(i);
 			close(fds[i].fd);
 			remove_connection(fds, i, nfds);

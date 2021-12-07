@@ -34,16 +34,21 @@ void startclient() {
 void startgame() {
     char buffer[BUFFER_SIZE];
     char guess[BUFFER_SIZE];
+    char sair[] = "sair";
     while (1) {
         recv(fd, buffer, BUFFER_SIZE, 0);
         printf("%s\n", buffer);
-        recv(fd, buffer, BUFFER_SIZE, 0);
-        printf("%s\n", buffer);
+        fflush(stdout);
+
+        if (!strcmp(buffer, sair)) {
+            printf("Você saiu do jogo.\n");
+            return;
+        }
 
         fgets(guess, BUFFER_SIZE, stdin);
+        guess[strcspn(guess, "\n")] = '\0';
         fflush(stdin);
         //printf("%s\n", guess);
-        fflush(stdout);
         send(fd, guess, sizeof(guess), 0);
     }
     return;

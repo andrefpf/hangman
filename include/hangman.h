@@ -14,7 +14,6 @@ static char * RANDOM_WORDS[] = {
 };
 
 static char * STICKERMAN[] = { 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|               \n"
@@ -24,7 +23,6 @@ static char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
@@ -34,7 +32,6 @@ static char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
@@ -44,7 +41,6 @@ static char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
@@ -54,7 +50,6 @@ static char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
@@ -64,7 +59,6 @@ static char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
@@ -74,7 +68,6 @@ static char * STICKERMAN[] = {
     "|       | |     \n"
     "|               \n",
 
-    "WELLCOME! \nType the character you think that is in the word. \n"
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
