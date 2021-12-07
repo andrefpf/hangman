@@ -4,16 +4,17 @@
 #define WORD_SIZE 256
 #define NUM_BODY_PARTS 4
 
-int N_WORDS = 4;
-char * RANDOM_WORDS[] = {
+static int N_WORDS = 4;
+static char * RANDOM_WORDS[] = {
     "Hello",
-    "Word",
-    "Mia",
-    "Mama"
+    "World",
+    "Apocalipse",
+    "Forca",
+    "Força"
 };
 
-char * STICKERMAN[] = { 
-    " --------       \n"
+static char * STICKERMAN[] = { 
+    " ________       \n"
     "|        |      \n"
     "|               \n"
     "|               \n"
@@ -21,7 +22,7 @@ char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    " --------       \n"
+    " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
     "|               \n"
@@ -29,7 +30,7 @@ char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    " --------       \n"
+    " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
     "|       [ ]     \n"
@@ -37,7 +38,7 @@ char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    " --------       \n"
+    " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
     "|    3--[ ]--E  \n"
@@ -45,7 +46,7 @@ char * STICKERMAN[] = {
     "|               \n"
     "|               \n",
 
-    " --------       \n"
+    " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
     "|    3--[ ]--E  \n"

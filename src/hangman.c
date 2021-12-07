@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include <hangman.h>
 
@@ -56,7 +57,7 @@ void fill_gaps(char * guess, char * word) {
 
 int belongs(char c, char * word) {
     for (int i = 0; i < strlen(word); i++) {
-        if (word[i] == c) {
+        if (tolower(word[i]) == tolower(c)) {
             return 1;
         }
     }
@@ -65,8 +66,8 @@ int belongs(char c, char * word) {
 
 int complete_word(char c, char * guess, char * word) {
     for (int i = 0; i < strlen(word); i++) {
-        if (word[i] == c) {
-            guess[i] = c;
+        if (tolower(word[i]) == tolower(c)) {
+            guess[i] = word[i];
         }
     }
 }
