@@ -17,13 +17,12 @@
 
 int startclient() {
     int ret, fd;
-	struct sockaddr_in6 addr;
+	struct sockaddr_in addr;
 	
-	fd = socket(AF_INET6, SOCK_STREAM, IPPROTO_TCP);
-	inet_pton(AF_INET6, SERVER_IP, &addr.sin6_addr);
-	addr.sin6_port = htons(SERVER_PORT);
-	addr.sin6_family = AF_INET6;
-
+	fd = socket(AF_INET, SOCK_STREAM, 0);
+	addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+	addr.sin_family = AF_INET;
+	addr.sin_port = htons(SERVER_PORT);
 	if ((ret = connect(fd, (struct sockaddr *) &addr, sizeof(addr))) < 0) {
 		perror("unable to connect");
 		exit(1);
