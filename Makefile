@@ -1,11 +1,11 @@
-all: server client
+all: clean server client
 
 server:
-	gcc -I include/ src/server.c -o server
+	@ gcc -I include/ src/server.c -o server
 
 client:
-	gcc -I include/ src/client.c -o client
+	@ gcc -I include/ src/client.c -o client
 
 clean:
-	rm server -f
-	rm client -f
+	@ rm server -f
+	@ rm client -f
