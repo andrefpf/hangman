@@ -11,6 +11,7 @@
 
 #include <server.h>
 
+
 int startserver(void) {
 	int sd = -1, on = 1;
 	struct sockaddr_in serveraddr;
@@ -47,7 +48,7 @@ void remove_connection(struct pollfd *fds, int i, int *nfds) {
 	(*nfds)--;
 }
 
-void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
+void handle_polling(struct pollfd *fds, int i, int server_fd, int *nfds) {
 	struct sockaddr_in addr;
     char buffer[500];
     memset(&buffer, 0, 500);
@@ -104,7 +105,7 @@ int main() {
                 case 0:
                     break;
                 case POLLIN:
-                    handle_pollin(fds, i, server_fd, &nfds);
+                    handle_polling(fds, i, server_fd, &nfds);
                     break;
                 case POLLNVAL:
                 case POLLPRI:
