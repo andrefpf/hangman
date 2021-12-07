@@ -8,6 +8,7 @@
 #include <string.h>
 #include <poll.h>
 #include <assert.h>
+#include <time.h>
 
 #include <server.h>
 #include <hangman.h>
@@ -188,7 +189,7 @@ void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
 	/* operation request */
 	int p = recv(fds[i].fd, buffer[i], BUFFER_SIZE, 0);
 	if (p > 0) {
-        printf("Player %d msg: %s\n",i,  buffer[i]);
+        printf("Player %d msg: %s\n", i,  buffer[i]);
 		if (game_loop(fds[i].fd, buffer[i], i) != 0) {
 			finishgame(i);
 			close(fds[i].fd);
@@ -208,6 +209,8 @@ int main() {
 	int server_fd;
 	int nfds;
 	struct pollfd fds[POLL_LENGHT] = {{.fd = 0, .events = POLLIN}};
+
+	srand(time(0));
 
 	server_fd = start_server();
 	fds[0].fd = server_fd;
