@@ -2,7 +2,7 @@
 #define HANGMAN_H
 
 #define WORD_SIZE 256
-#define NUM_BODY_PARTS 4
+#define NUM_BODY_PARTS 6
 
 static int N_WORDS = 4;
 static char * RANDOM_WORDS[] = {
@@ -20,19 +20,22 @@ static char * STICKERMAN[] = {
     "|               \n"
     "|               \n"
     "|               \n"
-    "|               \n",
-
-    " ________       \n"
-    "|        |      \n"
-    "|      (º_º)    \n"
-    "|               \n"
-    "|               \n"
     "|               \n"
     "|               \n",
 
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
+    "|               \n"
+    "|               \n"
+    "|               \n"
+    "|               \n"
+    "|               \n",
+
+    " ________       \n"
+    "|        |      \n"
+    "|      (º_º)    \n"
+    "|        I      \n"
     "|       [ ]     \n"
     "|               \n"
     "|               \n"
@@ -41,6 +44,16 @@ static char * STICKERMAN[] = {
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
+    "|        I      \n"
+    "|               \n"
+    "|               \n"
+    "|               \n"
+    "|               \n",
+
+    " ________       \n"
+    "|        |      \n"
+    "|      (º_º)    \n"
+    "|        I      \n"
     "|    3--[ ]--E  \n"
     "|               \n"
     "|               \n"
@@ -49,6 +62,16 @@ static char * STICKERMAN[] = {
     " ________       \n"
     "|        |      \n"
     "|      (º_º)    \n"
+    "|        I      \n"
+    "|    3--[ ]--E  \n"
+    "|       / \\    \n"
+    "|       | |     \n"
+    "|               \n",
+
+    " ________       \n"
+    "|        |      \n"
+    "|      (º_º)    \n"
+    "|        I      \n"
     "|    3--[ ]--E  \n"
     "|       / \\    \n"
     "|       | |     \n"
@@ -58,9 +81,11 @@ static char * STICKERMAN[] = {
 enum BODY_PARTS {
     NONE,
     HEAD,
+    NECK,
     BODY,
     ARMS,
-    LEGS
+    LEGS,
+    FEET
 };
 
 enum RESULTS {

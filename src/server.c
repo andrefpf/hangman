@@ -12,7 +12,7 @@
 #include <server.h>
 
 
-int startserver(void) {
+int start_server(void) {
 	int sd = -1, on = 1;
 	struct sockaddr_in serveraddr;
 
@@ -48,7 +48,7 @@ void remove_connection(struct pollfd *fds, int i, int *nfds) {
 	(*nfds)--;
 }
 
-void handle_polling(struct pollfd *fds, int i, int server_fd, int *nfds) {
+void handle_pollin(struct pollfd *fds, int i, int server_fd, int *nfds) {
 	struct sockaddr_in addr;
     char buffer[500];
     memset(&buffer, 0, 500);
@@ -92,7 +92,7 @@ int main() {
 	int nfds;
 	struct pollfd fds[POLL_LENGHT] = {{.fd = 0, .events = POLLIN}};
 
-	server_fd = startserver();
+	server_fd = start_server();
 	fds[0].fd = server_fd;
 	nfds = 1;
 	printf("listening\n");
@@ -105,7 +105,7 @@ int main() {
                 case 0:
                     break;
                 case POLLIN:
-                    handle_polling(fds, i, server_fd, &nfds);
+                    handle_pollin(fds, i, server_fd, &nfds);
                     break;
                 case POLLNVAL:
                 case POLLPRI:
